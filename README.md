@@ -1,2 +1,2 @@
 # junit-testing
-Testing springboot testing with JUnit and Mockito
+Springboot testing with JUnit and Mockito
