@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.testcontainers.containers.MySQLContainer;
@@ -33,8 +35,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EmployeeControllerITestContainer {
 
     @Container
-    private static final MySQLContainer MY_SQL_CONTAINER = new MySQLContainer("mysql:latest");//you can add .with methods to
+    private static final MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");//you can add .with methods to
     // set user defined password,databasename,usernames //by default all those values are test,test,test
+
+    //registered this container into application context so that all test cases can use this container
+    @DynamicPropertySource
+    public static void dynamicPropertySource (DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add("spring.datasource.password", mySQLContainer::getPassword);
+
+    }
 
     @Autowired
     private MockMvc mockMvc;
