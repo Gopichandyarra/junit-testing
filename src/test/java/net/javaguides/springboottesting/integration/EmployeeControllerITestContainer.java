@@ -31,14 +31,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
-public class EmployeeControllerITestContainer {
+public class EmployeeControllerITestContainer extends AbstractionBaseTest{
 
+    /*
     @Container
     private static final MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");//you can add .with methods to
     // set user defined password,databasename,usernames //by default all those values are test,test,test
 
-    //registered this container into application context so that all test cases can use this container
+
+    //registered this container into application context so that all integration test cases in same file can use this container
+    //to extend this to other integration test cases in other files, we have to write these lines into every other file
+    //or instead of creating mysql container in eac and every file, create an abstract class and move this code there
+    //and extend that abstract class(singleton class) everywhere
+
+
     @DynamicPropertySource
     public static void dynamicPropertySource (DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
@@ -46,6 +52,8 @@ public class EmployeeControllerITestContainer {
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
 
     }
+    */
+
 
     @Autowired
     private MockMvc mockMvc;
